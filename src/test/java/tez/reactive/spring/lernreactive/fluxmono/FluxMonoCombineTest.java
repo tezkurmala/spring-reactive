@@ -3,6 +3,7 @@ package tez.reactive.spring.lernreactive.fluxmono;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
+import reactor.test.scheduler.VirtualTimeScheduler;
 
 import java.time.Duration;
 
@@ -52,15 +53,22 @@ public class FluxMonoCombineTest {
 
     @Test
     public void combineUsingConcatWithDelay() {
+        VirtualTimeScheduler.getOrSet();
         Flux<String> flux1 = Flux.just("A", "B", "C").delayElements(Duration.ofSeconds(1)); //Flux emits each element with 1 sec delay
         Flux<String> flux2 = Flux.just("D", "E", "F").delayElements(Duration.ofSeconds(1)); //Flux emits each element with 1 sec delay
         //Ordered sequential One flux is consumer after the other. Not by interleaving as merge does.
         Flux<String> concatenatedFlux = Flux.concat(flux1, flux2).log(); //Flux that consumes from Flux1 and then from Flux2
 
-        StepVerifier.create(concatenatedFlux)
+        StepVerifier.withVirtualTime(() -> concatenatedFlux.log())
                 .expectSubscription()//To verify the consumer received the Subscription
+                .thenAwait(Duration.ofSeconds(6))
                 .expectNext("A", "B", "C", "D", "E", "F")
                 .verifyComplete();
+
+//        StepVerifier.create(concatenatedFlux)
+//                .expectSubscription()//To verify the consumer received the Subscription
+//                .expectNext("A", "B", "C", "D", "E", "F")
+//                .verifyComplete();
     }
 
     @Test
