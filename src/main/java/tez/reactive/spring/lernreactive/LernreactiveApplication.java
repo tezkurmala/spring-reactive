@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.util.Arrays;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "tez.reactive.spring.lernreactive")
 public class LernreactiveApplication {
 
     private static final Logger log = LoggerFactory.getLogger(LernreactiveApplication.class);
