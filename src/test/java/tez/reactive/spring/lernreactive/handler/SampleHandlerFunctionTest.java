@@ -17,7 +17,7 @@ import reactor.test.StepVerifier;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureWebTestClient
-@DirtiesContext
+//@DirtiesContext
 //WebFluxTest annotation does not work for router function. So we have to use @SpringBootTest and @AutoConfigureWebTestClient
 //@WebFluxTest
 public class SampleHandlerFunctionTest {

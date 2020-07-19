@@ -21,7 +21,7 @@ import java.util.List;
 //@AutoConfigureWebTestClient
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@DirtiesContext //Gives a brand new app context for each test
+//@DirtiesContext //Gives a brand new app context for each test
 public class ItemRepositoryTest {
     @Autowired
     private ItemRepository itemReactiveRepository;

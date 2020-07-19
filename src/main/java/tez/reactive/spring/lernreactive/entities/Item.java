@@ -1,5 +1,6 @@
 package tez.reactive.spring.lernreactive.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Item implements Persistable<String> {
     private Double price;
 
     @Transient
+    @JsonIgnore
     private boolean newProduct;
 
     /**
