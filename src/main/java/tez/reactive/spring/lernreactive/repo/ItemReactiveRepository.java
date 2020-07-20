@@ -6,7 +6,7 @@ import reactor.core.publisher.Flux;
 import tez.reactive.spring.lernreactive.entities.Item;
 
 @Component
-public interface ItemRepository extends ReactiveCrudRepository<Item, String> {
+public interface ItemReactiveRepository extends ReactiveCrudRepository<Item, String> {
     Flux<Item> findByDescription(String description);
 
 }

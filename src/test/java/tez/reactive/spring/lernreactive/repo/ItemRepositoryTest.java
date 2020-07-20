@@ -4,11 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,7 +20,7 @@ import java.util.List;
 //@DirtiesContext //Gives a brand new app context for each test
 public class ItemRepositoryTest {
     @Autowired
-    private ItemRepository itemReactiveRepository;
+    private ItemReactiveRepository itemReactiveRepository;
     List<Item> items = Arrays.asList(
             new Item("STV", "Samsung TV", 300.00).just(),
             new Item("LTV", "LG TV", 289.90).just(),

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -16,7 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import tez.reactive.spring.lernreactive.entities.Item;
-import tez.reactive.spring.lernreactive.repo.ItemRepository;
+import tez.reactive.spring.lernreactive.repo.ItemReactiveRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +30,7 @@ public class ItemControllerTest {
     WebTestClient webTestClient;
 
     @Autowired
-    ItemRepository itemReactiveRepository;
+    ItemReactiveRepository itemReactiveRepository;
 
     List<Item> items = Arrays.asList(
             new Item("STV", "Samsung TV", 300.00).just(),
@@ -157,5 +156,14 @@ public class ItemControllerTest {
                 .body(Mono.just(requestItem), Item.class)
                 .exchange()
                 .expectStatus().isNotFound();
+    }
+
+    @Test
+    public void runtimeException(){
+        webTestClient.get().uri(ItemConstants.ITEM_ENDPOINT_V1.concat("/runtimeException"))
+                .exchange()
+                .expectStatus().is5xxServerError()
+                .expectBody(String.class)
+                .isEqualTo("Intentionally injected exception");
     }
 }

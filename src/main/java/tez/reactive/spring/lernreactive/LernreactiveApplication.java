@@ -7,14 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.r2dbc.connectionfactory.init.CompositeDatabasePopulator;
 import org.springframework.data.r2dbc.connectionfactory.init.ConnectionFactoryInitializer;
 import org.springframework.data.r2dbc.connectionfactory.init.ResourceDatabasePopulator;
+import reactor.core.publisher.Flux;
 import tez.reactive.spring.lernreactive.entities.Item;
-import tez.reactive.spring.lernreactive.repo.ItemRepository;
+import tez.reactive.spring.lernreactive.repo.ItemReactiveRepository;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class LernreactiveApplication {
 
     @Bean
     @Profile("!test")
-    public CommandLineRunner demo(ItemRepository repository) {
+    public CommandLineRunner demo(ItemReactiveRepository repository) {
 
         return (args) -> {
             // save a few customers
@@ -70,6 +70,17 @@ public class LernreactiveApplication {
                 log.info("");
             }).block(Duration.ofSeconds(10));
 
+//            Flux<Item> itemsFluxStream = Flux.interval(Duration.ofSeconds(1))
+//                    .map(i -> new Item("ITEM" + i, "Item Desc " + i, 100.0 + i).just())
+//                    .take(50); //Limiting the insertions to 1000 items
+//            //Following is supported for Mongo
+//            //Repo listens/subscribes to Flux and inserts on every record/event
+//            //repository.insert(Flux)
+//
+//            itemsFluxStream.subscribe(item -> {
+//                log.info("Stream Inserting " + item);
+//                repository.save(item);
+//            });
         };
     }
 }
